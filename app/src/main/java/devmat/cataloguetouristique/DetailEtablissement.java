@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +27,7 @@ public class DetailEtablissement extends ActionBarActivity {
     Etablissement etablissement;
 
     TextView title, ouverture, content;
-    Button call;
+    ImageButton call, map, mail;
     ImageView picture;
 
     AQuery aq;
@@ -41,7 +42,9 @@ public class DetailEtablissement extends ActionBarActivity {
         this.getSupportActionBar().setTitle("Détail de l'établissement");
 
         picture = (ImageView) findViewById(R.id.picture);
-        call = (Button) findViewById(R.id.call);
+        call = (ImageButton) findViewById(R.id.call);
+        map = (ImageButton) findViewById(R.id.map);
+        mail = (ImageButton) findViewById(R.id.mail);
         title = (TextView) findViewById(R.id.title);
         ouverture = (TextView) findViewById(R.id.date);
         content = (TextView) findViewById(R.id.content);
@@ -65,6 +68,27 @@ public class DetailEtablissement extends ActionBarActivity {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 callIntent.setData(Uri.parse("tel:"+etablissement.getNumber()));
                 startActivity(callIntent);
+            }
+        });
+
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(etablissement.getMap());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
+        mail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("plain/text");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"chante.matthieu34@gmail.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "subject");
+                intent.putExtra(Intent.EXTRA_TEXT, "mail body");
+                startActivity(Intent.createChooser(intent, ""));
             }
         });
 

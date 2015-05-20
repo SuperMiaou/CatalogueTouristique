@@ -20,6 +20,7 @@ public class Etablissement implements Serializable {
 
     private String content;
     private String ouverture;
+    private String map;
 
     public int getId() {
         return id;
@@ -78,6 +79,14 @@ public class Etablissement implements Serializable {
         this.ouverture = ouverture;
     }
 
+    public String getMap() {
+        return map;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
+
     public String getPicture() {
         return picture;
     }
@@ -86,15 +95,16 @@ public class Etablissement implements Serializable {
         this.picture = picture;
     }
 
-    public Etablissement(int id, String name, String price, String number, String adress, String content, String ouverture, String picture) {
+    public Etablissement(int id, String name, String adress, String price, String number, String picture, String content, String ouverture, String map) {
         this.id = id;
         this.name = name;
+        this.adress = adress;
         this.price = price;
         this.number = number;
-        this.adress = adress;
+        this.picture = picture;
         this.content = content;
         this.ouverture = ouverture;
-        this.picture = picture;
+        this.map = map;
 
     }
 }

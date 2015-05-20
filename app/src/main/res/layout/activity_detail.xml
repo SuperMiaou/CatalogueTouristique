@@ -17,19 +17,28 @@
             android:layout_height="match_parent"
             >
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Carte"
+                android:src="@drawable/ic_map"
                 android:id="@+id/map"
                 />
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/map"
                 android:src="@drawable/ic_call"
                 android:id="@+id/call"
+                />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/call"
+                android:src="@drawable/ic_mail"
+                android:id="@+id/mail"
                 />
 
             </RelativeLayout>
@@ -39,6 +48,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/header"
         android:id="@+id/view">
 
@@ -68,7 +78,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="-16dp"
         android:layout_below="@+id/view"
         android:id="@+id/view2">
 
@@ -79,6 +89,11 @@
 
             <TextView
                 android:textColor="#000000"
+                android:background="#07000000"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"
                 android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,20 +130,28 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/view2"
         android:id="@+id/view3">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             >
 
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:id="@+id/content"
-               />
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars = "vertical"
+                >
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/content"
+                    />
+
+                </ScrollView>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

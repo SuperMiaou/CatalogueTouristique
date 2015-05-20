@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 
@@ -50,7 +51,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
         //perform a Google search in just a few lines of code
 
-        String url = "http://172.31.1.63:8888/EXERCICES_IMERIR/CatalogueTouristique/Perpignan.json";
+        String url = "http://172.31.1.215:8888/CatalogueTouristique/Perpignan.json";
         query.ajax(url, JSONObject.class, this, "jsonCallback");
 
     }
@@ -64,14 +65,15 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 try {
                     int id = etabli.getJSONObject(i).getInt("id");
                     String name = etabli.getJSONObject(i).getString("name");
+                    String adress = etabli.getJSONObject(i).getString("adress");
                     String price = etabli.getJSONObject(i).getString("price");
                     String number = etabli.getJSONObject(i).getString("number");
-                    String adress = etabli.getJSONObject(i).getString("adress");
+                    String picture = etabli.getJSONObject(i).getString("picture");
                     String content = etabli.getJSONObject(i).getString("content");
                     String ouverture = etabli.getJSONObject(i).getString("ouverture");
-                    String picture = etabli.getJSONObject(i).getString("picture");
+                    String map = etabli.getJSONObject(i).getString("map");
 
-                    Etablissement eta = new Etablissement(id, name, price, number, adress, content, ouverture, picture);
+                    Etablissement eta = new Etablissement(id, name, adress, price, number, picture, content, ouverture, map);
                     etablissements.add(eta);
 
                 } catch (JSONException e) {
@@ -92,6 +94,23 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // Getting SearchView from XML layout by id defined there - my_search_view in this case
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Getting id for 'search_plate' - the id is part of generate R file,
+        // so we have to get id on runtime.
+        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+        // Getting the 'search_plate' LinearLayout.
+        View searchPlate = searchView.findViewById(searchPlateId);
+        // Setting background of 'search_plate' to earlier defined drawable.
+        searchPlate.setBackgroundResource(R.drawable.textfield_searchview_holo_light);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,7 +127,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
+        if (id == R.id.action_search) {
         }
 
         return super.onOptionsItemSelected(item);

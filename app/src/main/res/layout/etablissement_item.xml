@@ -11,11 +11,12 @@
         >
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/picture"
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher" />
+            android:src="@android:drawable/ic_dialog_info" />
+
 
         <TextView
             android:layout_width="wrap_content"
