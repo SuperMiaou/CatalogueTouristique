@@ -2,6 +2,7 @@ package devmat.cataloguetouristique;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
+
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 public class EtablissementAdapter extends BaseAdapter {
     Context context;
     ArrayList<Etablissement> etablissements;
+    AQuery aq;
 
     LayoutInflater inflater;
 
@@ -67,37 +71,15 @@ public class EtablissementAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
-        // téléchargement async de l'image...
-        final ImageView imgView = holder.picture;
-        new AsyncTask<String,Void,Bitmap>() {
-
-            @Override
-            protected Bitmap doInBackground(String... params) {
-                String url = params[0];
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                super.onPostExecute(bitmap);
-
-                imgView.setImageBitmap(bitmap);
-            }
-        }.execute(etablissements.get(position).getPicture());
-
-        try {
-            Uri imgUri = Uri.parse(etablissements.get(position).getPicture());
-            Log.d("Url image", "Uri: " + imgUri.toString());
-            holder.picture.setImageURI(imgUri);
-        } catch (Exception e) {
-            Log.d("Url image", "Erreur");
-        }
+        aq = new AQuery(context);
 
         holder.title.setText(etablissements.get(position).getName());
         holder.price.setText(etablissements.get(position).getPrice());
         //holder.picture.setImageURI(imgUri);
+
+        if(etablissements.get(position).getPicture()!=null && etablissements.get(position).getPicture().length()>0) {
+            aq.id(holder.picture).image(etablissements.get(position).getPicture());
+        }
 
         return convertView;
     }

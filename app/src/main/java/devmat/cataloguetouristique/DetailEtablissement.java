@@ -59,7 +59,7 @@ public class DetailEtablissement extends ActionBarActivity {
 
 
         if(etablissement.getPicture()!=null && etablissement.getPicture().length()>0) {
-            aq.id(picture).image(etablissement.getPicture());
+            aq.id(R.id.picture).image(etablissement.getPicture());
         }
 
         call.setOnClickListener(new View.OnClickListener() {
