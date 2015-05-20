@@ -1,28 +1,34 @@
 package devmat.cataloguetouristique;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.util.XmlDom;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import devmat.cataloguetouristique.models.Etablissement;
 
 
 public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
-    ArrayAdapter<String> myAdapter;
-    ArrayList<Etablissement> etablissementArray;
-    EtablissementManager etablissementManager;
-    ListView listEtablissements;
-    EtablissementAdapter adapter;
+    ArrayList<Etablissement> etablissements;
+
+    ListView etablissementList;
+    AQuery query;
 
 
     @Override
@@ -30,38 +36,62 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        etablissementManager = new EtablissementManager(this);
+        etablissementList = (ListView) findViewById(R.id.etablissement);
 
-        EtablissementAPI.createInstance(this.getApplicationContext());
-        listEtablissements = (ListView) findViewById(R.id.listEtabli);
+        etablissementList.setOnItemClickListener(this);
 
-        listEtablissements.setOnItemClickListener(this);
+        query = new AQuery(this);
 
-
-        myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        listEtablissements.setAdapter(myAdapter);
-        listEtablissements.setTextFilterEnabled(true);
-
-        showEtablissements();
-    }
-
-    public void showEtablissements() {
-        adapter = new EtablissementAdapter(this, etablissementManager.getListEtablissements());
-        listEtablissements.setAdapter(adapter);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        refreshListView();
-
-        adapter = new EtablissementAdapter(this, etablissementManager.getListEtablissements());
-
-        listEtablissements.setOnItemClickListener(this);
-        listEtablissements.setAdapter(adapter);
-        listEtablissements.setTextFilterEnabled(true);
+        asyncJson();
 
     }
+
+    public void asyncJson(){
+
+        //perform a Google search in just a few lines of code
+
+        String url = "http://172.31.1.63:8888/EXERCICES_IMERIR/CatalogueTouristique/Perpignan.json";
+        query.ajax(url, JSONObject.class, this, "jsonCallback");
+
+    }
+
+    public void jsonCallback(String url, JSONObject json, AjaxStatus status){
+        if(json != null){
+            JSONArray etabli = json.optJSONArray("etablissements");
+
+            etablissements = new ArrayList<>();
+            for(int i = 0; i < etabli.length(); i++) {
+                try {
+                    int id = etabli.getJSONObject(i).getInt("id");
+                    String name = etabli.getJSONObject(i).getString("name");
+                    String price = etabli.getJSONObject(i).getString("price");
+                    String number = etabli.getJSONObject(i).getString("number");
+                    String adress = etabli.getJSONObject(i).getString("adress");
+                    String content = etabli.getJSONObject(i).getString("content");
+                    String ouverture = etabli.getJSONObject(i).getString("ouverture");
+                    String picture = etabli.getJSONObject(i).getString("picture");
+
+                    Etablissement eta = new Etablissement(id, name, price, number, adress, content, ouverture, picture);
+                    etablissements.add(eta);
+
+                } catch (JSONException e) {
+                    Log.e("Catch ViewEtablissement", "Exception" + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+            //Log.d("Result:", etabli.toString());
+            EtablissementAdapter adapter = new EtablissementAdapter(this, etablissements);
+            etablissementList.setAdapter(adapter);
+
+            //Log.d("Result:", json.toString());
+
+        } else{
+                Log.d("Error", json.toString());
+        }
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,28 +109,15 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            refreshListView();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void refreshListView() {
-        EtablissementAPI.getInstance().viewEtablissementAPI(new EtablissementAPI.APIListener() {
-            @Override
-            public void callback() {
-                etablissementArray = etablissementManager.getListEtablissements();
-                EtablissementAdapter adapter = new EtablissementAdapter(MainActivity.this, etablissementArray);
-
-                listEtablissements.setOnItemClickListener(MainActivity.this);
-                listEtablissements.setAdapter(adapter);
-                listEtablissements.setTextFilterEnabled(true);
-            }
-        });
-    }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Intent detail = new Intent(this, DetailEtablissement.class);
+        detail.putExtra("etablissements", etablissements.get(position));
+        startActivity(detail);
     }
 }
