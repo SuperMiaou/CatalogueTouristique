@@ -1,5 +1,6 @@
 package devmat.cataloguetouristique;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,6 +38,11 @@ public class EtablissementAdapter extends BaseAdapter {
 
         inflater = LayoutInflater.from(context);
 
+    }
+
+    public EtablissementAdapter(Activity activity) {
+        inflater = (LayoutInflater) activity
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override

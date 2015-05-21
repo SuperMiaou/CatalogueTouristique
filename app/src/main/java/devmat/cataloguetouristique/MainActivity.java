@@ -9,13 +9,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +35,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
+    ArrayAdapter<String> myAdapter;
     ArrayList<Etablissement> etablissements;
     ListView etablissementList;
     AQuery query;
@@ -50,7 +55,6 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
     String regid;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +160,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
+
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -260,7 +265,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.search_view) {
+        if (id == R.id.action_search) {
         }
 
         return super.onOptionsItemSelected(item);
