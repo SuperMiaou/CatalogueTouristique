@@ -15,12 +15,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingLeft="20dp" >
             >
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Carte"
                 android:src="@drawable/ic_map"
                 android:id="@+id/map"
                 />
@@ -41,6 +41,14 @@
                 android:id="@+id/mail"
                 />
 
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/mail"
+                android:src="@drawable/ic_web"
+                android:id="@+id/web"
+                />
+
             </RelativeLayout>
     </android.support.v7.widget.CardView>
 
@@ -59,7 +67,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="150dp"
                 android:scaleType="centerCrop"
                 android:id="@+id/picture" />
 
@@ -85,9 +93,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:text="-"
             >
 
-            <TextView
+            @<TextView
                 android:textColor="#000000"
                 android:background="#07000000"
                 android:shadowColor="#000000"

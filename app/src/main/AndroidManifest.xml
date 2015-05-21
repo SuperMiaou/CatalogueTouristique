@@ -2,15 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="devmat.cataloguetouristique" >
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Permet l'application d'envoyer l'ID d'enregistrement au serveur -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Permet de garder en mémoire le message lorsque le téléphone est en veille -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> <!-- Permet à l'application de s'inscrire et recevoir des messages -->
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <permission android:name="devmat.cataloguetouristique.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="devmat.cataloguetouristique.permission.C2D_MESSAGE" /> <!-- Empêche d'autres applications Android de s'inscrire et recevoir les messages de l'application Android -->
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name" >
@@ -34,6 +43,16 @@
             android:name=".DetailEtablissement"
             android:label="@string/title_activity_detail" >
         </activity>
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />  <!-- Le récepteur devrait exiger la permission, de sorte que seul le cadre de GCM peut envoyer un message à elle -->
+                <category android:name="devmat.cataloguetouristique" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".GcmIntentService" />
     </application>
 
 </manifest>

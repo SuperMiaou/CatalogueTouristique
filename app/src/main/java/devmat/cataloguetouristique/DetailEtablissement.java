@@ -27,7 +27,7 @@ public class DetailEtablissement extends ActionBarActivity {
     Etablissement etablissement;
 
     TextView title, ouverture, content;
-    ImageButton call, map, mail;
+    ImageButton call, map, mail, web;
     ImageView picture;
 
     AQuery aq;
@@ -45,6 +45,7 @@ public class DetailEtablissement extends ActionBarActivity {
         call = (ImageButton) findViewById(R.id.call);
         map = (ImageButton) findViewById(R.id.map);
         mail = (ImageButton) findViewById(R.id.mail);
+        web = (ImageButton) findViewById(R.id.web);
         title = (TextView) findViewById(R.id.title);
         ouverture = (TextView) findViewById(R.id.date);
         content = (TextView) findViewById(R.id.content);
@@ -89,6 +90,15 @@ public class DetailEtablissement extends ActionBarActivity {
                 intent.putExtra(Intent.EXTRA_SUBJECT, "subject");
                 intent.putExtra(Intent.EXTRA_TEXT, "mail body");
                 startActivity(Intent.createChooser(intent, ""));
+            }
+        });
+
+        web.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent =
+                new Intent(Intent.ACTION_VIEW, Uri.parse(""+etablissement.getSite()));
+                startActivity(browserIntent);
             }
         });
 

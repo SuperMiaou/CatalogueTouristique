@@ -20,6 +20,7 @@ public class Etablissement implements Serializable {
 
     private String content;
     private String ouverture;
+    private String site;
     private String map;
 
     public int getId() {
@@ -79,6 +80,14 @@ public class Etablissement implements Serializable {
         this.ouverture = ouverture;
     }
 
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
     public String getMap() {
         return map;
     }
@@ -95,7 +104,7 @@ public class Etablissement implements Serializable {
         this.picture = picture;
     }
 
-    public Etablissement(int id, String name, String adress, String price, String number, String picture, String content, String ouverture, String map) {
+    public Etablissement(int id, String name, String adress, String price, String number, String picture, String content, String ouverture, String site, String map) {
         this.id = id;
         this.name = name;
         this.adress = adress;
@@ -104,6 +113,7 @@ public class Etablissement implements Serializable {
         this.picture = picture;
         this.content = content;
         this.ouverture = ouverture;
+        this.site = site;
         this.map = map;
 
     }
